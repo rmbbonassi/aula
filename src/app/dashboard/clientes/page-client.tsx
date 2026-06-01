@@ -31,10 +31,11 @@ export default function ClientesPageClient({ clientes }: Props) {
   }
 
   function handleFormSuccess() {
+    const wasEditing = editingCliente
     setFormOpen(false)
     setEditingCliente(null)
     router.refresh()
-    toast.success(editingCliente ? 'Cliente atualizado.' : 'Cliente criado.')
+    toast.success(wasEditing ? 'Cliente atualizado.' : 'Cliente criado.')
   }
 
   async function handleDeleteConfirm(cliente: Cliente) {
@@ -76,7 +77,7 @@ export default function ClientesPageClient({ clientes }: Props) {
         <ClienteDeleteDialog
           cliente={deletingCliente}
           open={!!deletingCliente}
-          onOpenChange={open => !open && setDeletingCliente(null)}
+          onOpenChange={(open: boolean) => !open && setDeletingCliente(null)}
           onConfirm={() => handleDeleteConfirm(deletingCliente)}
         />
       )}

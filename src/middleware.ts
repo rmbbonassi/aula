@@ -30,8 +30,7 @@ export async function middleware(request: NextRequest) {
     const { data, error } = await supabase.auth.getUser()
     if (!error) user = data.user
   } catch {
-    // Network error — allow request through, do not crash all routes
-    return supabaseResponse
+    user = null  // fall through to the redirect check below
   }
 
   const { pathname } = request.nextUrl

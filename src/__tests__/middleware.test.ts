@@ -2,7 +2,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { NextRequest } from 'next/server'
 
 const mockGetUser = vi.fn()
-const mockSetAll = vi.fn()
 
 vi.mock('@supabase/ssr', () => ({
   createServerClient: vi.fn(() => ({
@@ -13,7 +12,7 @@ vi.mock('@supabase/ssr', () => ({
 async function runMiddleware(url: string, user: object | null, throwError = false) {
   mockGetUser.mockImplementation(() => {
     if (throwError) throw new Error('Network error')
-    return Promise.resolve({ data: { user }, error: user ? null : { message: 'Not authenticated' } })
+    return Promise.resolve({ data: { user }, error: null })
   })
   const { middleware } = await import('@/middleware')
   const req = new NextRequest(new URL(url, 'http://localhost:3000'))
@@ -48,8 +47,9 @@ describe('middleware', () => {
     expect(res.status).toBe(200)
   })
 
-  it('allows request through when getUser throws a network error', async () => {
+  it('redirects to /login when getUser throws a network error on protected route', async () => {
     const res = await runMiddleware('http://localhost:3000/dashboard', null, true)
-    expect(res.status).toBe(200)
+    expect(res.status).toBe(307)
+    expect(res.headers.get('location')).toContain('/login')
   })
 })

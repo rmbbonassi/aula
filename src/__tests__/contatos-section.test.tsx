@@ -3,7 +3,9 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { Contato } from '@/lib/supabase/types'
 
-const mockInsert = vi.fn()
+const mockSingle = vi.fn()
+const mockSelect = vi.fn(() => ({ single: mockSingle }))
+const mockInsert = vi.fn(() => ({ select: mockSelect }))
 const mockDelete = vi.fn()
 
 vi.mock('@/lib/supabase/client', () => ({
@@ -20,7 +22,7 @@ const mockContatos: Contato[] = [
 ]
 
 describe('ContatosSection', () => {
-  beforeEach(() => { mockInsert.mockReset(); mockDelete.mockReset() })
+  beforeEach(() => { mockInsert.mockReset(); mockSelect.mockReset(); mockSingle.mockReset(); mockDelete.mockReset() })
 
   it('renders existing contacts', async () => {
     const { default: ContatosSection } = await import('@/components/contatos-section')
@@ -36,7 +38,7 @@ describe('ContatosSection', () => {
   })
 
   it('adds a new contact on form submit', async () => {
-    mockInsert.mockResolvedValue({ data: [{ id: '2', cliente_id: 'c1', nome: 'Maria', cargo: null, email: null, telefone: null }], error: null })
+    mockSingle.mockResolvedValue({ data: { id: '2', cliente_id: 'c1', nome: 'Maria', cargo: null, email: null, telefone: null }, error: null })
     const { default: ContatosSection } = await import('@/components/contatos-section')
     render(<ContatosSection clienteId="c1" initialContatos={[]} />)
     fireEvent.click(screen.getByRole('button', { name: /adicionar contato/i }))

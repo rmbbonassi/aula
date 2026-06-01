@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -38,11 +39,15 @@ export default function LoginPage() {
       setError('Digite seu e-mail para recuperar a senha')
       return
     }
-    await supabase.auth.resetPasswordForEmail(email, {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/dashboard`,
     })
-    setError('')
-    alert('E-mail de recuperação enviado. Verifique sua caixa de entrada.')
+    if (error) {
+      setError('Não foi possível enviar o e-mail de recuperação.')
+    } else {
+      setError('')
+      toast.success('E-mail de recuperação enviado. Verifique sua caixa de entrada.')
+    }
   }
 
   return (

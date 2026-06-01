@@ -21,14 +21,13 @@ export default function NotasSection({ clienteId, initialNotas }: NotasSectionPr
     e.preventDefault()
     if (!texto.trim()) return
     setLoading(true)
-    const { data: { user } } = await supabase.auth.getUser()
-    const { data, error } = await supabase.from('notas').insert({
-      cliente_id: clienteId,
-      texto: texto.trim(),
-      criado_por: user?.id ?? null,
-    })
+    const { data, error } = await supabase
+      .from('notas')
+      .insert({ cliente_id: clienteId, texto: texto.trim() })
+      .select()
+      .single()
     if (!error && data) {
-      setNotas(prev => [data[0], ...prev])
+      setNotas(prev => [data, ...prev])
       setTexto('')
     }
     setLoading(false)

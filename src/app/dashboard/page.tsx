@@ -24,7 +24,7 @@ export default async function DashboardPage() {
 
       {contatosRecentes && contatosRecentes.length > 0 && (
         <div className="bg-white rounded-lg border p-6">
-          <h2 className="text-lg font-semibold mb-4">Contatos Recentes</h2>
+          <h2 className="text-lg font-semibold mb-4">Últimos Contatos Cadastrados</h2>
           <ul className="space-y-2">
             {contatosRecentes.map(contato => (
               <li key={contato.id} className="flex items-center gap-2 text-sm">

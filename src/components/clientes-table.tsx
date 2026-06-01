@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import {
   useReactTable,
   getCoreRowModel,
@@ -27,7 +28,18 @@ export default function ClientesTable({ clientes, onEdit, onDelete }: ClientesTa
   const [globalFilter, setGlobalFilter] = useState('')
 
   const columns: ColumnDef<Cliente>[] = [
-    { accessorKey: 'nome', header: 'Nome' },
+    {
+      accessorKey: 'nome',
+      header: 'Nome',
+      cell: ({ row }) => (
+        <Link
+          href={`/dashboard/clientes/${row.original.id}`}
+          className="font-medium text-blue-600 hover:underline"
+        >
+          {row.original.nome}
+        </Link>
+      ),
+    },
     { accessorKey: 'empresa', header: 'Empresa', cell: ({ getValue }) => getValue() ?? '—' },
     { accessorKey: 'email', header: 'E-mail', cell: ({ getValue }) => getValue() ?? '—' },
     { accessorKey: 'telefone', header: 'Telefone', cell: ({ getValue }) => getValue() ?? '—' },

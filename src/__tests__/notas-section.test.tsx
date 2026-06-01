@@ -3,12 +3,13 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { Nota } from '@/lib/supabase/types'
 
-const mockInsert = vi.fn()
+const mockSingle = vi.fn()
+const mockSelect = vi.fn(() => ({ single: mockSingle }))
+const mockInsert = vi.fn(() => ({ select: mockSelect }))
 
 vi.mock('@/lib/supabase/client', () => ({
   createClient: vi.fn(() => ({
     from: vi.fn(() => ({ insert: mockInsert })),
-    auth: { getUser: vi.fn(() => ({ data: { user: { id: 'u1' } } })) },
   })),
 }))
 
@@ -17,7 +18,7 @@ const mockNotas: Nota[] = [
 ]
 
 describe('NotasSection', () => {
-  beforeEach(() => mockInsert.mockReset())
+  beforeEach(() => { mockInsert.mockReset(); mockSelect.mockReset(); mockSingle.mockReset() })
 
   it('renders existing notes', async () => {
     const { default: NotasSection } = await import('@/components/notas-section')
@@ -32,8 +33,8 @@ describe('NotasSection', () => {
   })
 
   it('adds a new note on submit', async () => {
-    mockInsert.mockResolvedValue({
-      data: [{ id: '2', cliente_id: 'c1', texto: 'Nova nota.', criado_por: 'u1', created_at: new Date().toISOString() }],
+    mockSingle.mockResolvedValue({
+      data: { id: '2', cliente_id: 'c1', texto: 'Nova nota.', criado_por: null, created_at: new Date().toISOString() },
       error: null,
     })
     const { default: NotasSection } = await import('@/components/notas-section')

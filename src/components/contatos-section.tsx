@@ -40,15 +40,19 @@ export default function ContatosSection({ clienteId, initialContatos }: Contatos
     e.preventDefault()
     if (!form.nome.trim()) { setError('Nome é obrigatório'); return }
     setLoading(true)
-    const { data, error } = await supabase.from('contatos').insert({
-      cliente_id: clienteId,
-      nome: form.nome.trim(),
-      cargo: form.cargo.trim() || null,
-      email: form.email.trim() || null,
-      telefone: form.telefone.trim() || null,
-    })
+    const { data, error } = await supabase
+      .from('contatos')
+      .insert({
+        cliente_id: clienteId,
+        nome: form.nome.trim(),
+        cargo: form.cargo.trim() || null,
+        email: form.email.trim() || null,
+        telefone: form.telefone.trim() || null,
+      })
+      .select()
+      .single()
     if (error) { setError('Erro ao salvar.'); setLoading(false); return }
-    if (data) setContatos(prev => [...prev, data[0]])
+    if (data) setContatos(prev => [...prev, data])
     setLoading(false)
     setOpen(false)
     setForm(emptyForm)
@@ -114,7 +118,7 @@ export default function ContatosSection({ clienteId, initialContatos }: Contatos
             {error && <p className="text-sm text-red-500">{error}</p>}
           </form>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setOpen(false)}>Cancelar</Button>
+            <Button type="button" variant="outline" onClick={() => setOpen(false)}>Cancelar</Button>
             <Button type="submit" form="contato-form" disabled={loading}>
               {loading ? 'Salvando...' : 'Salvar'}
             </Button>

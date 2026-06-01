@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_context7_context7__resolve-library-id",
+      "mcp__plugin_context7_context7__query-docs",
+      "WebSearch",
+      "WebFetch(domain:ui.shadcn.com)",
+      "WebFetch(domain:doxygen.postgresql.org)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "PowerShell(Stop-Job *)",
+      "Bash(Test-Path *)",
+      "Bash(git *)",
+      "Bash(node -e \"const v = require\\('./node_modules/vitest/package.json'\\); console.log\\('vitest:', v.version\\)\")",
+      "Bash(node -e \"const v = require\\('./node_modules/@vitejs/plugin-react/package.json'\\); console.log\\('@vitejs/plugin-react:', v.version\\)\")",
+      "Bash(node -e \"const v = require\\('./node_modules/@supabase/ssr/package.json'\\); console.log\\('@supabase/ssr:', v.version\\)\")",
+      "Bash(node -e \"const v = require\\('./node_modules/lucide-react/package.json'\\); console.log\\('lucide-react:', v.version\\)\")",
+      "Bash(node -e \"const v = require\\('./node_modules/shadcn/package.json'\\); console.log\\('shadcn:', v.version\\)\")",
+      "Bash(node -e \"const v = require\\('./node_modules/next/package.json'\\); console.log\\('next:', v.version\\)\")",
+      "Bash(node -e \"const pkg = require\\('./package.json'\\); console.log\\('shadcn in deps:', !!pkg.dependencies.shadcn\\); console.log\\('shadcn in devDeps:', !!pkg.devDependencies?.shadcn\\)\")",
+      "Bash(node -e \"const pkg = require\\('./package.json'\\); console.log\\('base-ui:', pkg.dependencies['@base-ui/react']\\)\")",
+      "Bash(node -e \"const v = require\\('./node_modules/vitest/package.json'\\); console.log\\(JSON.stringify\\(v.exports?.'.': {}, null, 2\\)\\)\")",
+      "Bash(node -e \"const v = require\\('./node_modules/tailwindcss/package.json'\\); console.log\\('tailwindcss:', v.version\\)\")",
+      "Bash(node -e \"const pkg = require\\('./node_modules/tw-animate-css/package.json'\\); console.log\\('main:', pkg.main, 'exports:', JSON.stringify\\(pkg.exports\\)\\)\")",
+      "Bash(node -e \"const pkg = require\\('./node_modules/postcss/package.json'\\); console.log\\('postcss:', pkg.version\\)\")",
+      "Bash(node -e \"const pkg = require\\('./node_modules/tailwindcss/package.json'\\); console.log\\('tailwind peer deps:', JSON.stringify\\(pkg.peerDependencies || {}\\)\\)\")",
+      "Bash(node -e \"const pkg = require\\('./node_modules/lucide-react/package.json'\\); console.log\\('lucide version:', pkg.version, 'peer deps:', JSON.stringify\\(pkg.peerDependencies || {}\\)\\)\")",
+      "Bash(node -e \"try { const { Users } = require\\('./node_modules/lucide-react/dist/cjs/lucide-react.js'\\); console.log\\('Users icon exists:', typeof Users\\) } catch\\(e\\) { console.log\\('Error:', e.message\\) }\")",
+      "Bash(node *)",
+      "Bash(npm uninstall *)",
+      "Bash(Remove-Item -Path \"C:\\\\aula\\\\src\\\\components\\\\ui\" -Recurse -Force)",
+      "Bash(Write-Host \"UI components deleted\")",
+      "Bash(npm install *)",
+      "Bash(npx shadcn-ui@latest *)",
+      "Bash(npm run *)"
+    ]
+  }
+}

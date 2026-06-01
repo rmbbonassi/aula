@@ -50,7 +50,6 @@ export type Database = {
           cargo?: string | null
           email?: string | null
           telefone?: string | null
-          created_at?: string
         }
         Update: {
           id?: string
@@ -59,7 +58,6 @@ export type Database = {
           cargo?: string | null
           email?: string | null
           telefone?: string | null
-          created_at?: string
         }
       }
       notas: {

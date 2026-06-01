@@ -1,15 +1,29 @@
 import { createClient } from '@/lib/supabase/server'
 
+type ContatoRecente = {
+  id: string
+  nome: string
+  cargo: string | null
+  created_at: string
+  clientes: { nome: string } | null
+}
+
 export default async function DashboardPage() {
   const supabase = createClient()
 
-  const [{ count: totalClientes }, { data: contatosRecentes }] = await Promise.all([
+  const [
+    { count: totalClientes },
+    { count: totalContatos },
+    { data: contatosRecentes },
+  ] = await Promise.all([
     supabase.from('clientes').select('*', { count: 'exact', head: true }),
+    supabase.from('contatos').select('*', { count: 'exact', head: true }),
     supabase
       .from('contatos')
       .select('id, nome, cargo, created_at, clientes(nome)')
       .order('created_at', { ascending: false })
-      .limit(5),
+      .limit(5)
+      .returns<ContatoRecente[]>(),
   ])
 
   return (
@@ -19,6 +33,10 @@ export default async function DashboardPage() {
         <div className="bg-white rounded-lg border p-6">
           <p className="text-sm text-gray-500">Total de Clientes</p>
           <p className="text-3xl font-bold mt-1">{totalClientes ?? 0}</p>
+        </div>
+        <div className="bg-white rounded-lg border p-6">
+          <p className="text-sm text-gray-500">Total de Contatos</p>
+          <p className="text-3xl font-bold mt-1">{totalContatos ?? 0}</p>
         </div>
       </div>
 
@@ -34,7 +52,7 @@ export default async function DashboardPage() {
                 )}
                 {contato.clientes && (
                   <span className="text-gray-400 text-xs">
-                    ({(contato.clientes as { nome: string }).nome})
+                    ({contato.clientes.nome})
                   </span>
                 )}
               </li>

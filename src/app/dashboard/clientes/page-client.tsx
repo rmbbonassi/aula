@@ -40,23 +40,7 @@ export default function ClientesPageClient({ clientes }: Props) {
 
   async function handleDeleteConfirm(cliente: Cliente) {
     const supabase = createClient()
-
-    // Delete children first (on delete restrict requires manual cascade)
-    const { error: notasError } = await supabase.from('notas').delete().eq('cliente_id', cliente.id)
-    if (notasError) {
-      toast.error('Não foi possível excluir as notas do cliente.')
-      setDeletingCliente(null)
-      return
-    }
-
-    const { error: contatosError } = await supabase.from('contatos').delete().eq('cliente_id', cliente.id)
-    if (contatosError) {
-      toast.error('Não foi possível excluir os contatos do cliente.')
-      setDeletingCliente(null)
-      return
-    }
-
-    const { error } = await supabase.from('clientes').delete().eq('id', cliente.id)
+    const { error } = await supabase.rpc('delete_cliente_cascade', { p_cliente_id: cliente.id })
     if (error) {
       toast.error('Não foi possível excluir o cliente.')
     } else {

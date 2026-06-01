@@ -52,7 +52,9 @@ export default function ContatosSection({ clienteId, initialContatos }: Contatos
       .select()
       .single()
     if (error) { setError('Erro ao salvar.'); setLoading(false); return }
-    if (data) setContatos(prev => [...prev, data])
+    if (data) setContatos(prev =>
+      [...prev, data].sort((a, b) => a.nome.localeCompare(b.nome, 'pt-BR'))
+    )
     setLoading(false)
     setOpen(false)
     setForm(emptyForm)

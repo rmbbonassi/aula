@@ -42,6 +42,7 @@ export type Database = {
           email: string | null
           telefone: string | null
           created_at: string
+          criado_por: string | null
         }
         Insert: {
           id?: string

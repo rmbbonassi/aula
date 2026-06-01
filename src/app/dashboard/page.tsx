@@ -7,8 +7,8 @@ export default async function DashboardPage() {
     supabase.from('clientes').select('*', { count: 'exact', head: true }),
     supabase
       .from('contatos')
-      .select('id, nome, cargo, clientes(nome)')
-      .order('id', { ascending: false })
+      .select('id, nome, cargo, created_at, clientes(nome)')
+      .order('created_at', { ascending: false })
       .limit(5),
   ])
 

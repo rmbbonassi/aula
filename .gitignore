@@ -26,7 +26,15 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
 .env*.local
+
+# tools
+.playwright-mcp/
+.serena/
+
+# screenshots
+*.png
 
 # vercel
 .vercel

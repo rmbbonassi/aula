@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import type { Cliente, Contato, Nota } from '@/lib/supabase/types'
 import { Button } from '@/components/ui/button'
 import ContatosSection from '@/components/contatos-section'
 import NotasSection from '@/components/notas-section'
@@ -12,11 +13,15 @@ interface Props {
 export default async function ClienteDetailPage({ params }: Props) {
   const supabase = createClient()
 
-  const [{ data: cliente }, { data: contatos }, { data: notas }] = await Promise.all([
+  const [clienteResult, contatosResult, notasResult] = await Promise.all([
     supabase.from('clientes').select('*').eq('id', params.id).single(),
     supabase.from('contatos').select('*').eq('cliente_id', params.id).order('nome'),
     supabase.from('notas').select('*').eq('cliente_id', params.id).order('created_at', { ascending: false }),
   ])
+
+  const cliente = clienteResult.data as Cliente | null
+  const contatos = contatosResult.data as Contato[] | null
+  const notas = notasResult.data as Nota[] | null
 
   if (!cliente) notFound()
 

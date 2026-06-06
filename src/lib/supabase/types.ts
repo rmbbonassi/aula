@@ -32,6 +32,7 @@ export type Database = {
           created_at?: string
           updated_at?: string
         }
+        Relationships: []
       }
       contatos: {
         Row: {
@@ -60,6 +61,7 @@ export type Database = {
           email?: string | null
           telefone?: string | null
         }
+        Relationships: []
       }
       notas: {
         Row: {
@@ -83,12 +85,14 @@ export type Database = {
           criado_por?: string | null
           created_at?: string
         }
+        Relationships: []
       }
     }
+    Views: Record<string, never>
     Functions: {
       delete_cliente_cascade: {
         Args: { p_cliente_id: string }
-        Returns: void
+        Returns: undefined
       }
     }
   }

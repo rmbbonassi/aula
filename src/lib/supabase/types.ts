@@ -85,6 +85,12 @@ export type Database = {
         }
       }
     }
+    Functions: {
+      delete_cliente_cascade: {
+        Args: { p_cliente_id: string }
+        Returns: void
+      }
+    }
   }
 }
 
